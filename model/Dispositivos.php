@@ -1,40 +1,35 @@
 <?php
 
+require_once 'model/ConnectDB.php';
+
 class Dispositivos {
 
-    public function __construct($dbhost = 'localhost', $dbuser = 'root', $dbpass = 'root', $dbname = 'senhasegura', $charset = 'utf8') {
+    public $conn;
+
+    public function __construct() {
         
-        $this->connection = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
-        
-		if ($this->connection->connect_error) {
-			die('Failed to connect to MySQL - ' . $this->connection->connect_error);
-		}
-		$this->connection->set_charset($charset);
+        $this->conn = ConnectDB::getInstance()->conn;
 	}
 
     public function listAll() {
 
         $sql = 'SELECT * FROM senhasegura.dispositivos ORDER BY hostname;';
-        $result = $this->connection->query($sql);
+        $result = $this->conn->query($sql);
 
-        if ($result->num_rows > 0) {
-            $array_total = [];
-            
-            while($row = $result->fetch_assoc()) {
-                $array = [
-                            'hostname' => $row['hostname'],
-                            'ip' => $row['ip'],
-                            'tipo' => $row['tipo'],
-                            'fabricante' => $row['fabricante']
-                        ];
+        $array_total = [];
+        
+        while($row = $result->fetch_assoc()) {
+            $array = [
+                        'hostname' => $row['hostname'],
+                        'ip' => $row['ip'],
+                        'tipo' => $row['tipo'],
+                        'fabricante' => $row['fabricante']
+                    ];
 
-                array_push($array_total, $array);
-            }
-
-            return $array_total;
-        } else {
-            echo "0 results";
+            array_push($array_total, $array);
         }
+
+        return $array_total;
     }
     
     public function save($hostname, $ip, $tipo, $fabricante) {
@@ -50,11 +45,7 @@ class Dispositivos {
                 '$tipo',
                 '$fabricante');";
 
-        if ($this->connection->query($sql) === TRUE) {
-            header("Location:index.php?classe=Dispositivos&metodo=listar");
-        } else {
-            echo "Error: " . $sql . "<br>" . $this->connection->error;
-        }
+        return $this->conn->query($sql);
     }
     
     public function update($hostname, $ip, $ip_original, $tipo, $fabricante) {
@@ -68,22 +59,14 @@ class Dispositivos {
                 WHERE `ip` = '$ip_original';
                 ";
 
-        if ($this->connection->query($sql) === TRUE) {
-            header("Location:index.php?classe=Dispositivos&metodo=listar");
-        } else {
-            echo "Error updating record: " . $this->connection->error;
-        }
+        return $this->conn->query($sql);
     }
     
     public function remove($ip) {
         
         $sql = "DELETE FROM `senhasegura`.`dispositivos` WHERE ip='$ip'";
 
-        if ($this->connection->query($sql) === TRUE) {
-            header("Location:index.php?classe=Dispositivos&metodo=listar");
-        } else {
-            echo "Error deleting record: " . $this->connection->error;
-        }
+        return $this->conn->query($sql);
     }
 }
  

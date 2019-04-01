@@ -12,6 +12,11 @@
         <script src="js/bootstrap.min.js"></script>
     
         <h1>Terminal</h1>
-        
+
+        <form action="index.php?classe=Ssh&metodo=envia_comando" method="post">
+            Comando: <input type="text" name="comando"><input type="submit" value="Enviar">
+        </form>
+
+        <h1>Resultado:</h1>
     </body>
 </html>

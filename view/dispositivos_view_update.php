@@ -9,7 +9,7 @@ $dispositivos = $_REQUEST['dispositivos'];
 
         <title>Exercícios MT4</title>
 
-        <script type = "text/javascript">
+        <script type="text/javascript">
             function getConfirmation(ip) {
                 var retVal = confirm('Realmente deseja excluir o IP ' + ip + '?');
                 if( retVal == true ) {
@@ -57,7 +57,7 @@ $dispositivos = $_REQUEST['dispositivos'];
                             <td><?= $dispositivo['ip']; ?></td>
                             <td><?= $dispositivo['tipo']; ?></td>
                             <td><?= $dispositivo['fabricante']; ?></td>
-                            <td><input type="image" src="img/connect.png" width="18" height="18" onmouseover="this.src='img/connected.png';" onmouseout="this.src='img/connect.png';" onclick="window.location='index.php?classe=Ssh&metodo=conecta&hostname=<?= $dispositivo['hostname']; ?>&ip=<?= $dispositivo['ip']; ?>';"/></td>
+                            <td><input type="image" src="img/connect.png" width="18" height="18" onmouseover="this.src='img/connected.png';" onmouseout="this.src='img/connect.png';" onclick="window.location='index.php?classe=Ssh&metodo=conecta&ip=<?= $dispositivo['ip']; ?>';"/></td>
                         </tr>
                     <?php } else { ?>
                         <tr>
@@ -84,7 +84,7 @@ $dispositivos = $_REQUEST['dispositivos'];
                         <input type="hidden" name="metodo" value="salvar">
 
                         <td></td>
-                        <td><input type="image" src="img/add.ico" alt="Submit" width="18" height="18"/></td>
+                        <td><input type="image" src="img/add.png" alt="Submit" width="18" height="18"/></td>
                         <td><input type="text" name="hostname" value=""></td>
                         <td><input type="text" name="ip" value=""></td>
                         <td><input type="text" name="tipo" value=""></td>
